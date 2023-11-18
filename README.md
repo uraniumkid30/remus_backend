@@ -1,17 +1,25 @@
-# default_django_setup
-- starter template for other DjangoRest Framework projects.
-- if you are looking for a quick way to start a new project 
-with some things already available, like a customized user system and 
-other services, then you are in the right place
-
+# Remus Backend API DJango Version
 # Requirements
 pipenv
 pyenv (python 3.9)
+
+# Project Setup
 ## Once pipenv is installed you can execute the following command
 `python local 3.9.10` this will set your local project to python 3.9
 `pipenv shell` this will create a virtual environment
 `pipenv sync`  This will install all the required package and
  also create a virtual environment if needed.
+
+## ENV FILE Updates
+- `pipenv run python services/utilities.py` this will create a secret key to the terminal,
+copy it and use it in your .env file for the SECRET_KEY constant
+
+- update the database settings if using postgres or mysql
+
+## manage.py updates
+- `conf/scripts/local/start.sh` to start server for the first time
+- `conf/scripts/local/run_server.sh` to start server subsequent times
+- `conf/scripts/local/kill_server.sh` to kill server
 
 # HOWTO Development
  to use the development settings.  

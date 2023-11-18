@@ -15,29 +15,25 @@
 # python manage.py createsuperuser --username='admin' --email=''
 
 # run
-MANAGER_NAME="pipenv" # update to manager_name options pipenv, python, poetry
-if [ ${MANAGER_NAME} == "poetry" ]
+source conf/env_variables/.env
+if [ ${LIBRARY_MANAGER} == "poetry" ]
 then
     poetry shell
     poetry install
     poetry lock --no-update
     source $(poetry env info --path)/bin/activate
-    source conf/env_variables/.env
     python manage.py check
     python manage.py runserver
-elif [ ${MANAGER_NAME} == "pipenv" ]
+elif [ ${LIBRARY_MANAGER} == "pipenv" ]
 then
-    echo "${blue}>>> Syncing environment with with ${MANAGER_NAME}."
+    echo "${blue}>>> Syncing environment with with ${LIBRARY_MANAGER}."
     pipenv shell
-    pipenv sync
-    source conf/env_variables/.env
-    echo "${green}>>> About running development server with ${MANAGER_NAME}."
+    echo "${green}>>> About running development server with ${LIBRARY_MANAGER}."
     pipenv run python manage.py check
     pipenv run python manage.py runserver
 else
-    echo "${blue}>>> Syncing environment with with ${MANAGER_NAME}."
-    source conf/env_variables/.env
-    echo "${green}>>> About running development server with ${MANAGER_NAME}."
+    echo "${blue}>>> Syncing environment with with ${LIBRARY_MANAGER}."
+    echo "${green}>>> About running development server with ${LIBRARY_MANAGER}."
     python manage.py check
     python manage.py runserver
 fi
