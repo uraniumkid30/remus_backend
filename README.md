@@ -56,6 +56,9 @@ This will install pre-commits lattest settings at .git/hooks/pre-commit.
 - besure to use gunicorn as a spark to wsgi  / asgi
 - containers are amazing, the project comes shipped with docker.
 
+# Documentation.
+- more documentation such as enev sample project flow resides in `docs` folder.
+
 # Useful docker commands
 - docker rm $(docker ps -a -q -f status=exited) #remove all containers
 - docker rmi -f $(docker images -aq)
