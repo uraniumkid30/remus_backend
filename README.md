@@ -9,6 +9,7 @@ pipenv
 pyenv (python 3.9)
 ## Once pipenv is installed you can execute the following command
 `python local 3.9.10` this will set your local project to python 3.9
+`pipenv shell` this will create a virtual environment
 `pipenv sync`  This will install all the required package and
  also create a virtual environment if needed.
 
@@ -66,4 +67,4 @@ This will install pre-commits lattest settings at .git/hooks/pre-commit.
 Please create an issue if all doesnt go well, thanks.
 
 # Was it helpful?
-If this was helpful and resourceful to you, give me some `Star` rating.
+If this was helpful and resourceful to you, give some `Star` rating.
