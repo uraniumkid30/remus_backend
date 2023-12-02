@@ -5,7 +5,7 @@ pyenv (python 3.9)
 
 # Project Setup
 ## Once pipenv is installed you can execute the following command
-`python local 3.9.10` this will set your local project to python 3.9
+`pyenv local 3.9.10` this will set your local project to python 3.9
 `pipenv shell` this will create a virtual environment.
 `pipenv sync`  This will install all the required package and
  also create a virtual environment if needed.

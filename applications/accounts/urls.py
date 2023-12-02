@@ -12,7 +12,7 @@ from applications.accounts.api import (
 
 router_v1 = DefaultRouter()
 app_name: str = "users"
-environment = settings.ENVIRONMENT
+environment: str = settings.ENVIRONMENT
 urlpatterns = [
     path('', include(router_v1.urls)),
     path('auth/register/', UserRegistrationView.as_view(), name='user-registration'),
