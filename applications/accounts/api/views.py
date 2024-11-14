@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from applications.accounts.managers.selectors import (
     UserSelector,
 )
-from applications.accounts.managers.serializers import (
+from applications.accounts.api.serializers import (
     LoginSerializer,
     RegistrationSerializer,
     ListUserSerializer,

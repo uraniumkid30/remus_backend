@@ -1,12 +1,10 @@
-import re
 import logging
 
 from rest_framework import serializers
-from django.contrib.auth import authenticate
 
-from ..models import User, UserProfile
+from ..models import User
 from .validators import FieldValidators
-from .services import UserService
+from applications.accounts.managers.services import UserService
 
 
 logger = logging.getLogger(__name__)
@@ -54,10 +52,6 @@ class LoginSerializer(serializers.Serializer):
         return value
 
 
-class DashboardSerializer(serializers.Serializer):
-    pass
-
-
 class RegistrationSerializer(serializers.Serializer):
     phone_no = serializers.CharField(
         error_messages={
@@ -89,7 +83,7 @@ class RegistrationSerializer(serializers.Serializer):
             )
         elif not FieldValidators.is_password_valid(value):
             raise serializers.ValidationError(
-                'Password is invalid.'
+                'Password is invalid. Must contain Uppercase, lowercase, numbers and symbols'
             )
         return value
 
@@ -114,46 +108,6 @@ class UserSerializer(serializers.ModelSerializer):
                 'allow_null': True
             }
         }
-
-
-class ProfileUpdateSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
-    class Meta:
-        model = UserProfile
-        fields = ['user']
-
-    def swap(self, value, new):
-        if value:
-            return value
-        else:
-            return new
-
-    def clean_phone_no(self, phone_no):
-        if not (phone_no.startswith('0') or re.match('\+?234', phone_no)):
-            phone_no = '0' + phone_no
-        return phone_no
-
-    def update(self, instance, validated_data):
-        validated_data = validated_data['user']
-        instance.user.email = self.swap(validated_data.get('email'), instance.user.email)
-        instance.user.first_name = self.swap(validated_data.get('first_name'), instance.user.first_name)
-        instance.user.last_name = self.swap(validated_data.get('last_name'), instance.user.last_name)
-        phone_no = self.swap(validated_data.get('phone_no'), instance.user.phone_no)
-        instance.user.phone_no = self.clean_phone_no(phone_no)
-        instance.user.save()
-        return instance
-
-
-class PasswordResetSerializer(serializers.Serializer):
-    phone_no = serializers.CharField(max_length=255, write_only=True)
-
-
-class PasswordResetConfirmSerializer(serializers.Serializer):
-    token = serializers.CharField(max_length=255, read_only=True)
-    password = serializers.CharField(max_length=128, write_only=True)
-    confirm_password = serializers.CharField(max_length=128, write_only=True)
-    email = serializers.CharField(max_length=255, write_only=True)
 
 
 class ListUserSerializer(serializers.ModelSerializer):
