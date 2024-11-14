@@ -54,6 +54,9 @@ class LoginAPIView(APIView):
                         {'message': "Invalid credentials", 'status': '00'},
                         status=status.HTTP_400_BAD_REQUEST
                     )
+                else:
+                    user.first().is_active = True
+                    user.first().save()
             user = authenticate(username=username, password=password)
             if user is None:
                 return Response(
@@ -107,6 +110,6 @@ class UserListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ListUserSerializer
     pagination_class = CustomPageNumberPagination
-    
+
     def get_queryset(self):
         return UserSelector.fetch_records()

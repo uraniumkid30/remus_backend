@@ -40,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeBaseModel):
         dt = datetime.now() + timedelta(days=365)
 
         token = jwt.encode({
-            'id': str(self.pk),
+            'id': str(self.id),
             'exp': int(dt.strftime('%s'))
         }, settings.SECRET_KEY, algorithm='HS256')
 
@@ -60,8 +60,6 @@ class User(AbstractBaseUser, PermissionsMixin, TimeBaseModel):
         return self.first_name
 
     def __str__(self):
-        # if self.first_name:
-        #     return "{}".format(self.first_name)
         return "{}:{}".format(self.username, self.phone_no)
 
 

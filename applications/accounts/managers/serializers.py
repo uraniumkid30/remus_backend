@@ -83,7 +83,7 @@ class RegistrationSerializer(serializers.Serializer):
             )
         elif not FieldValidators.is_password_valid(value):
             raise serializers.ValidationError(
-                'Password is invalid.'
+                'Password is invalid. Must contain Uppercase, lowercase, numbers and symbols'
             )
         return value
 

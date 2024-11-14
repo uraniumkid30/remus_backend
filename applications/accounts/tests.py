@@ -21,7 +21,9 @@ class UserTestCase(TestCase):
 
     def test_create_valid_user(self):
         user = UserService.create_user(data=self.valid_user_data)
-        user_profile = UserProfileSelector.get_user_profile(filters={"user": user})
+        user_profile = UserProfileSelector.get_user_profile(
+            filters={"user": user}
+        )
         fetched_users = UserSelector.list_users()
         fetched_user_profiles = UserProfileSelector.list_user_profiles()
         self.assertIsNotNone(user)

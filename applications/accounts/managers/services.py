@@ -20,7 +20,8 @@ class UserService(BaseService):
         data: dict = {},
     ) -> User:
         """Creates User"""
-        user = cls.create_record(**data)
+        model = cls.get_model()
+        user = model.objects.create_user(**data)
 
         return user
 
