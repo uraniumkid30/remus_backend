@@ -16,6 +16,7 @@ from .responses.data import EmailViewResponses
 from applications.general_services.managers.serializers import (
     EmailSerializer
 )
+from services.email_dispatcher import email_engine_factory
 
 
 logger = logging.getLogger(__name__)
@@ -35,6 +36,8 @@ class EmailAPIView(APIView):
             sender = serializer.validated_data.get('sender')
             receipients = serializer.validated_data.get('receipients')
             body = serializer.validated_data.get('body')
+            email_engine = email_engine_factory("SENTINEL")
+            email_engine.send_mail(receipients, sender, body=body, subject="test")
             return Response(**EmailViewResponses.responses("email_sent"))
 
         return Response(**EmailViewResponses.responses())
