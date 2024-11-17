@@ -11,6 +11,10 @@ DEFAULT_APPS = [
 ]
 LOCAL_APPS = [
     "applications.accounts",
+    "applications.finance",
+    "applications.merchant",
+    "applications.wallet",
+    "applications.location"
 ]
 
 THIRD_PARTY_APPS = [
