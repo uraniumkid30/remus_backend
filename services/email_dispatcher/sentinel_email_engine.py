@@ -2,13 +2,13 @@ from django.conf import settings
 from django.core.mail import send_mail as django_send_mail
 
 from .base_engine import EmailEngine
-from conf.core.requests_manager.base_requests import (
-    BaseClient,
-    HttpMethods,
+from conf.core.request_client.base_client import (
+    BaseRequestClient,
+    HttpMethods
 )
 
 
-class SentinelEmailClient(BaseClient):
+class SentinelEmailClient(BaseRequestClient):
     def set_base_url(self) -> str:
         """
         Updates and Returns the base url of Application api
@@ -58,7 +58,7 @@ class SentinelEmailEngine(EmailEngine):
             "to": [
                 to
             ],
-            
+
             "htmlContent": body,
             "subject": subject
         }

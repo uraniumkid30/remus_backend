@@ -12,6 +12,8 @@ from conf.addons.logs import get_logs_settings
 from conf.addons.api_docs import *
 from conf.addons.email import *
 from conf.addons.rest_framework import *
+from conf.addons.monnify import *
+from conf.addons.paystack import *
 
 INTERNAL_IPS = ("127.0.0.1",)
 

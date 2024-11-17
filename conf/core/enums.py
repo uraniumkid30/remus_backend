@@ -1,8 +1,9 @@
 from typing import Tuple, Any, Hashable
+from abc import ABC, abstractmethod
 from django.db.models.fields import PositiveSmallIntegerField
 
 
-class CustomEnum(object):
+class CustomEnum(ABC):
     class Enum(object):
         name = None
         value = None
@@ -37,6 +38,7 @@ class CustomEnum(object):
         return sorted(values, key=lambda x: x[0])
 
     @classmethod
+    @abstractmethod
     def default(cls):
         """
         Returns default value, which is the first one by default.
