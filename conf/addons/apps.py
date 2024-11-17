@@ -14,7 +14,8 @@ LOCAL_APPS = [
     "applications.finance",
     "applications.merchant",
     "applications.wallet",
-    "applications.location"
+    "applications.location",
+    "applications.remus"
 ]
 
 THIRD_PARTY_APPS = [
