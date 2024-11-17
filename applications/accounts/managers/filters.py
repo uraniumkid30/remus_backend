@@ -17,3 +17,4 @@ class UserProfileFilter(django_filters.FilterSet):
     class Meta:
         model = UserProfile
         fields = "__all__"
+        exclude = ['profile_picture']

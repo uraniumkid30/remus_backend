@@ -97,7 +97,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'first_name',
             'last_name', 'email',
-            'phone_no', ]
+            'phone_no', 'role']
         extra_kwargs = {
             'id': {
                 'read_only': True
@@ -116,6 +116,6 @@ class ListUserSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'first_name',
             'last_name', 'phone_no',
-            'email', 'is_active',
+            'email', 'is_active', 'role'
             'created_at',
         )
