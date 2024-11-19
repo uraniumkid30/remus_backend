@@ -59,6 +59,7 @@ python-dateutil
 python-environ
 pytz
 PyYAML
+qrcode
 referencing
 requests
 rpds-py

@@ -116,6 +116,6 @@ class ListUserSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'first_name',
             'last_name', 'phone_no',
-            'email', 'is_active', 'role'
+            'email', 'is_active', 'role',
             'created_at',
         )

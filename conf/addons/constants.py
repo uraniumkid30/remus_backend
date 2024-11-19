@@ -11,3 +11,5 @@ USE_TZ: bool = True
 DEFAULT_AUTO_FIELD: str = "django.db.models.BigAutoField"
 
 PROJECT_NAME: str = ""
+
+DEFAULT_REMUS_LOGO = "uyiy"

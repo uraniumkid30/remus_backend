@@ -1,10 +1,7 @@
-import logging
 
 from django.core.files.base import ContentFile
 
 from services.qr_code.engines import AbstractQRCodeEngine
-
-logger = logging.getLogger(__name__)
 
 
 class QRCodeGenerator:
@@ -15,7 +12,7 @@ class QRCodeGenerator:
         try:
             qr_code = qr_code_engine.create_qr_code(data)
         except Exception as err:
-            logger.exception(f"{err}")
+            print(f"{err}")
         finally:
             return qr_code
 

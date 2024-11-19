@@ -34,8 +34,8 @@ class LogoEngine:
         logo: PngImageFile, logo_size: tuple, qr_image_size: tuple
     ) -> PngImageFile:
         """compares the size of the logo with the size of the qrcode, resizes the logo if needed"""
-        lower_ratio_limit: float = 0.10
-        upper_ratio_limit: float = 0.16
+        lower_ratio_limit: float = 0.08
+        upper_ratio_limit: float = 0.14
         logo_width, logo_height = logo_size
         qr_image_width, qr_image_height = logo_size
         width_ratio: float = logo_width / qr_image_width

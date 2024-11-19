@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from merchant.enums import QRScanResult
-from merchant.models import QRTag as QRScan
+from applications.merchant.enums import QRScanResult
+from applications.merchant.models import QRTag as QRScan
 
 
 class QRRoutingAction(ABC):

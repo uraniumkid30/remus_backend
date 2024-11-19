@@ -112,7 +112,7 @@ class QRTag(IdentityTimeBaseModel):
     position = models.CharField(max_length=64, blank=True, null=True)
     qr_image = models.FileField(
         upload_to=MediaFolders.qr_codes, editable=False, null=True,
-        storage=qr_storage
+        #storage=qr_storage
     )
     domain = models.CharField(
         max_length=128, blank=True, null=True, editable=False
@@ -126,10 +126,10 @@ class QRTag(IdentityTimeBaseModel):
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse("merchant:qr_request_receipt", args=[str(self.id)])
+        return reverse("applications:merchant:qr_request_receipt", args=[str(self.id)])
 
     def get_merchant_domain(self):
-        from merchant.utils.urls import merchant_domain
+        from applications.merchant.utils.urls import merchant_domain
         if self.domain:
             return self.domain
         try:
@@ -158,7 +158,7 @@ class QRTag(IdentityTimeBaseModel):
         logo_id: str = self.get_merchant_qr_logo()
         base_url: str = self.get_merchant_domain()
 
-        data: str = f"https://{base_url}{self.get_absolute_url()}"
+        data: str = "https://prezola.com/buy/view/204761"#f"https://{base_url}{self.get_absolute_url()}"
         file_name: str = f"qr-{self.id}.png"
         configuration: dict = {
             "image_name": file_name,

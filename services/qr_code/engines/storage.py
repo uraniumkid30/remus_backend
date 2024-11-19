@@ -26,7 +26,7 @@ class CustomStorage:
         if dev_environment and background_logo:
             location = "staticfiles"
         elif dev_environment and not background_logo:
-            location = ""
+            location = f"{settings.MEDIA_DIR}"
         elif not dev_environment and background_logo:
             location = "static"
         elif not dev_environment and not background_logo:

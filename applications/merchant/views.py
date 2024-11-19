@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
-from merchant import models as merchant_models
-from merchant.services.qr_routing import (
+from applications.merchant import models as merchant_models
+from applications.merchant.services.qr_routing import (
     QRScanRouter,
-    check_pos_provider_and_trigger
+    #check_pos_provider_and_trigger
 )
 
 
@@ -15,9 +15,9 @@ def request_receipt(request, qrtag_id):
         ),
         id=qrtag_id
     )
-    integration_triggered = check_pos_provider_and_trigger(qr_tag)
-    if integration_triggered:
-        qr_tag.refresh_from_db()
+    # integration_triggered = check_pos_provider_and_trigger(qr_tag)
+    # if integration_triggered:
+    #     qr_tag.refresh_from_db()
     action_router = QRScanRouter(
         qr_tag
     )
