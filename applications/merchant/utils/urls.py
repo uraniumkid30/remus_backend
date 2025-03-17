@@ -1,26 +1,19 @@
-from applications.merchant.models import MerchantPlatformSettings
+from applications.merchant.models import (
+    RestaurantPlatformSettings,
+    MerchantProfile,
+    Restaurant,
+)
 
-
-def merchant_domain(store):
+def get_restaurant_api_domain(restaurant):
     try:
-        merchant = store.merchant
         try:
-            platform_site = merchant.platform_settings
-            return platform_site.domain
-        except MerchantPlatformSettings.DoesNotExist:
+            platform_site = restaurant.platform_setting
+            return platform_site.api_domain
+        except RestaurantPlatformSettings.DoesNotExist:
             pass
-        platform_site = merchant.platform_settings
-        domain = platform_site.domain
-        return domain
-    except (MerchantPlatformSettings.DoesNotExist, Exception):
+        except Exception as er:
+            print(er)
         return ""
-
-
-def get_merchant_domain(merchant):
-    try:
-        platform_site = merchant.platform_settings
-        domain = platform_site.domain
-        return domain
-    except (MerchantPlatformSettings.DoesNotExist, Exception):
+    except (Restaurant.DoesNotExist, Exception) as err:
+        print(err)
         return ""
-

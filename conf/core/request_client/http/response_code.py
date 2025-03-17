@@ -112,8 +112,10 @@ class METHOD_EXPECTED_RESPONSE_CODE:
     )
     PUT: tuple = (Status.HTTP_204_NO_CONTENT, Status.HTTP_200_OK)
     PATCH: tuple = (Status.HTTP_204_NO_CONTENT, Status.HTTP_200_OK)
-    GET: tuple = (Status.HTTP_200_OK, )
+    GET: tuple = (Status.HTTP_200_OK,)
     DELETE: tuple = (Status.HTTP_204_NO_CONTENT, Status.HTTP_200_OK)
 
     def data(self) -> dict:
-        return {k: v for k, v in asdict(self).items() if self.__dataclass_fields__[k].repr}
+        return {
+            k: v for k, v in asdict(self).items() if self.__dataclass_fields__[k].repr
+        }

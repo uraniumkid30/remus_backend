@@ -92,9 +92,7 @@ class CustomEnum(ABC):
     @classmethod
     def name(c, key):
         try:
-            return [
-                name for name, value in c.__dict__.items() if value == key
-            ][0]
+            return [name for name, value in c.__dict__.items() if value == key][0]
         except Exception:
             return None
 
@@ -128,19 +126,85 @@ class CustomEnum(ABC):
         return choices_name.get(key)
 
 
-class Status(CustomEnum):
-    INACTIVE = 0
-    ACTIVE = 1
-    REMOVE = 2
-    PAUSED = 3
-    CANCELLED = 4
+class PricingCurrency(CustomEnum):
+    DOLLAR = "USD"
 
     @classmethod
-    def choices(c) -> Tuple[Tuple[int, str]]:
+    def choices(cls) -> Tuple[Tuple[str, str]]:
         return (
-            (c.INACTIVE, "Inactive"),
-            (c.ACTIVE, "Active"),
-            (c.REMOVE, "Remove"),
-            (c.PAUSED, "Paused"),
-            (c.CANCELLED, "Cancelled"),
+            (cls.DOLLAR, cls.DOLLAR),
         )
+
+    @classmethod
+    def get_symbol(cls, currency: str):
+        data = {
+            cls.DOLLAR: "$",
+        }
+        return data[currency]
+
+    @classmethod
+    def default(cls):
+        return cls.DOLLAR
+
+
+class Currency(CustomEnum):
+    NAIRA = "NGN"
+    DOLLAR = "USD"
+    EURO = "EUR"
+    UGANDA_SHILLINGS = "UGX"
+
+    @classmethod
+    def choices(cls) -> Tuple[Tuple[str, str]]:
+        return (
+            (cls.NAIRA, cls.NAIRA),
+            (cls.DOLLAR, cls.DOLLAR),
+            (cls.EURO, cls.EURO),
+        )
+
+    @classmethod
+    def get_symbol(cls, currency: str):
+        data = {
+            cls.NAIRA: "₦",
+            cls.DOLLAR: "$",
+            cls.EURO: "€",
+            cls.UGANDA_SHILLINGS: "UGX"
+        }
+        return data[currency]
+
+    @classmethod
+    def default(cls):
+        return cls.NAIRA
+
+
+class PaymentOption(CustomEnum):
+    UNPAID = "unpaid"
+    PAID = "paid"
+
+    @classmethod
+    def choices(cls) -> Tuple[Tuple[str, str]]:
+        return (
+            (cls.PAID, cls.PAID.capitalize()),
+            (cls.UNPAID, cls.UNPAID.capitalize()),
+        )
+
+    @classmethod
+    def default(cls):
+        return cls.UNPAID
+
+
+class PaymentStatus(CustomEnum):
+    PENDING = "pending"
+    SUCCESS = "success"
+    FAILED = "failed"
+
+    @classmethod
+    def choices(cls) -> Tuple[Tuple[str, str]]:
+        return (
+            (cls.PENDING, "PENDING"),
+            (cls.SUCCESS, "SUCCESS"),
+            (cls.FAILED, "FAILED"),
+        )
+
+    @classmethod
+    def default(cls):
+        return cls.PENDING

@@ -7,7 +7,7 @@ from conf.addons.directories import (
     DATABASE_DIR,
     FileProcessingTool
 )
-from conf.env_manager import env
+from conf.env_manager import env, py_env
 from conf.addons.db_engines import db_engine_factory
 
 db_name = "production_database.sqlite3"
@@ -21,16 +21,16 @@ pg_data = {
 }
 res = db_engine_factory(
     data=pg_data,
-    engine_name=env.str("DATABASE_ENGINE", "sqlite"),
+    engine_name=py_env.str("DATABASE_ENGINE", "sqlite"),
 )
 DATABASES = {
     "default": res
 }
 
-DEBUG = env.bool("DJANGO_DEBUG_SETTINGS", False)
+DEBUG = py_env.bool("DJANGO_DEBUG_SETTINGS", False)
 
-SECRET_KEY = env.str("SECRET_KEY")
-ENVIRONMENT = env.str("DJANGO_SETTINGS_MODULE", ".PRODUCTION")
+SECRET_KEY = py_env.str("SECRET_KEY")
+ENVIRONMENT = py_env.str("DJANGO_SETTINGS_MODULE", ".PRODUCTION")
 ENVIRONMENT.split(".")[-1].upper()
 base_requirements = os.path.join(REQUIREMENTS_DIR, "base.txt")
 prod_requirements = os.path.join(REQUIREMENTS_DIR, "production.txt")

@@ -181,6 +181,6 @@ class BaseService(ABC):
                 related_manager.set(value)
                 has_updated = True
         except Exception as err:
-            print(f'update error {err} for {instance}')
+            print(f"update error {err} for {instance}")
 
         return instance, has_updated

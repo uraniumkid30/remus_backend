@@ -1,16 +1,12 @@
 import os
-import secrets
 import subprocess
 
 from .base import *
-from conf.addons.directories import (
-    REQUIREMENTS_DIR,
-    DATABASE_DIR,
-    FileProcessingTool
-)
-from conf.env_manager import env
+from conf.addons.directories import REQUIREMENTS_DIR, DATABASE_DIR, FileProcessingTool
+from conf.env_manager import py_env
 
-db_name = "development_database.sqlite3"
+
+db_name = f"{py_env.str('DB_NAME', 'development_database')}.sqlite3"
 db_path = os.path.join(DATABASE_DIR, db_name)
 FileProcessingTool.check_and_create_file(db_path)
 
@@ -21,10 +17,17 @@ DATABASES = {
     }
 }
 
-DEBUG = DEBUG = env.bool("DJANGO_DEBUG_SETTINGS", True)
+DEBUG = DEBUG = py_env.bool("DJANGO_DEBUG_SETTINGS", True)
 
-SECRET_KEY = env.str("SECRET_KEY")
-ENVIRONMENT = env.str("DJANGO_SETTINGS_MODULE", ".DEVELOPMENT").split(".")[-1].upper()
+CSRF_TRUSTED_ORIGINS.extend(
+    [
+        "https://uraniumkid30.pythonanywhere.com",
+    ]
+)
+SECRET_KEY = py_env.str("SECRET_KEY")
+ENVIRONMENT = (
+    py_env.str("DJANGO_SETTINGS_MODULE", ".DEVELOPMENT").split(".")[-1].upper()
+)
 # process requirements
 base_requirements = os.path.join(REQUIREMENTS_DIR, "base.txt")
 dev_requirements = os.path.join(REQUIREMENTS_DIR, "development.txt")

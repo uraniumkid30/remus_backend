@@ -45,9 +45,7 @@ class BaseRequestClient:
         raise NotImplementedError()
 
     @staticmethod
-    def raise_appropriate_exception_if_needed(
-        response, expected_status_code=None
-    ):
+    def raise_appropriate_exception_if_needed(response, expected_status_code=None):
         """
         Raises an appropriate exception for different status codes
         Exceptions may be used to handle the flow of code in callers.
@@ -59,9 +57,7 @@ class BaseRequestClient:
         if _status_code == Status.HTTP_404_NOT_FOUND:
             raise NotFoundException(response.json())
         if _status_code == Status.HTTP_429_TOO_MANY_REQUESTS:
-            raise TooManyRequests(
-                "Too many requests. Try sleeping for 1 minutes."
-            )
+            raise TooManyRequests("Too many requests. Try sleeping for 1 minutes.")
         if expected_status_code:
             if _status_code not in expected_status_code:
                 raise UnExpectedStatusCode(
@@ -70,10 +66,7 @@ class BaseRequestClient:
                     f"{response.content}."
                 )
 
-    def _generate_params(
-        self,
-        raw_params={}
-    ) -> dict:
+    def _generate_params(self, raw_params={}) -> dict:
         """
         generates parameters from provided values
         """
@@ -93,17 +86,20 @@ class BaseRequestClient:
         headers: dict = {},
         computed_url: str = "",
         raise_exceptions=True,
-        auth=None
+        auth=None,
     ) -> Tuple[int, APIResultType]:
         """
         Makes request to Client server for a url
         """
-
         try:
             response = request(
-                method, url, headers=headers,
-                data=data, json=json_, params=params,
-                auth=auth
+                method,
+                url,
+                headers=headers,
+                data=data,
+                json=json_,
+                params=params,
+                auth=auth,
             )
             self.header_response = response.headers
             status_code = response.status_code
@@ -112,21 +108,23 @@ class BaseRequestClient:
             req_exceptions.ConnectionError,
             req_exceptions.ConnectTimeout,
         ) as err:
-            self.logger.warning(f"{self.APP_NAME} Connection error {err}")
+            print(f"{self.APP_NAME} Connection error {err}")
             raise_exceptions = False
             status_code = Status.HTTP_500_INTERNAL_SERVER_ERROR
             response_json = {"error": err}
             raise err
-        except ValueError:
+        except ValueError as el:
+            print(f"ell {el}")
+            response_json = {}
+        except Exception as err:
+            print(err)
             response_json = {}
 
         if raise_exceptions:
-            _expected_status_code = METHOD_EXPECTED_RESPONSE_CODE().data().get(
-                method.upper()
+            _expected_status_code = (
+                METHOD_EXPECTED_RESPONSE_CODE().data().get(method.upper())
             )
-            self.raise_appropriate_exception_if_needed(
-                response, _expected_status_code
-            )
+            self.raise_appropriate_exception_if_needed(response, _expected_status_code)
 
         return status_code, response_json
 
@@ -138,9 +136,7 @@ class BaseRequestClient:
 
         raw_params = kwargs.get("params")
         computed_url = kwargs.get("computed_url")
-        params = self._generate_params(
-            raw_params
-        )
+        params = self._generate_params(raw_params)
         call_more_responses = True
         _data = []
         while call_more_responses:

@@ -4,8 +4,8 @@ from dataclasses import dataclass, field
 
 @dataclass(frozen=True)
 class EngineNames:
-    sqlite: str = 'sqlite'
-    postgres: str = 'postgres'
+    sqlite: str = "sqlite"
+    postgres: str = "postgres"
 
 
 @dataclass(frozen=True)

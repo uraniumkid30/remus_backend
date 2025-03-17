@@ -12,16 +12,16 @@ from conf.core.types import DataclassEnum
 class SqliteEngine(BaseEngine):
     @classmethod
     def get_schema(cls) -> DataclassEnum:
-        """ Schema for Sqlite database"""
+        """Schema for Sqlite database"""
         return SqliteSchema
 
 
 class PostgresqlEngine(BaseEngine):
     @classmethod
     def get_schema(cls) -> DataclassEnum:
-        """ Schema for Postgres database"""
+        """Schema for Postgres database"""
         return PostgresqlSchema
-    
+
     @classmethod
     def get_engine_fields(cls, data: dict) -> dict:
         if not data.get("HOST"):
@@ -32,12 +32,12 @@ class PostgresqlEngine(BaseEngine):
 class MysqlEngine(BaseEngine):
     @classmethod
     def get_schema(cls) -> DataclassEnum:
-        """ Schema for Mysql database"""
+        """Schema for Mysql database"""
         return MysqlSchema
 
 
 class OracleEngine(BaseEngine):
     @classmethod
     def get_schema(cls) -> DataclassEnum:
-        """ Schema for Oracle database """
+        """Schema for Oracle database"""
         return OracleSchema

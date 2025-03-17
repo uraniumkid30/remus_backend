@@ -8,13 +8,13 @@ class ExportCsvMixin:
     @classmethod
     def get_field_names(cls) -> list:
         # meta = self.model._meta
-        """ Refer to comment on line 34"""
+        """Refer to comment on line 34"""
         # field_names = [field.name for field in meta.fields]
         raise NotImplementedError
 
     @classmethod
     def get_query_data(cls):
-        """ Commented this out to handle the logic better for making this export feature more generic"""
+        """Commented this out to handle the logic better for making this export feature more generic"""
         # for obj in queryset:
         #     row = writer.writerow([getattr(obj, field) for field in field_names])
         raise NotImplementedError
@@ -22,8 +22,10 @@ class ExportCsvMixin:
     def export_as_csv(self, request, queryset):
         field_names = self.get_field_names()
 
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=File-{}.csv'.format(datetime.now())
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = "attachment; filename=File-{}.csv".format(
+            datetime.now()
+        )
         writer = csv.writer(response)
 
         writer.writerow(field_names)

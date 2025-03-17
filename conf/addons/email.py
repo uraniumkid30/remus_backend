@@ -1,4 +1,3 @@
-from conf.env_manager import env
+from conf.env_manager import py_env
 
-
-SENTINEL_API_KEY=env.str('SENTINEL_API_KEY')
+SENTINEL_API_KEY = py_env.str("SENTINEL_API_KEY")

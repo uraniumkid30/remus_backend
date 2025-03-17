@@ -1,9 +1,12 @@
 import string
 import random
 
+from django.db import models
+from django.db.models.functions import Now
 from django.contrib.auth.models import BaseUserManager
 
 from ..validators import UserValidation
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -23,22 +26,22 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('role', "admin")
-        UserValidation.superuser_is_valid(extra_fields.get('is_superuser'))
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("role", "admin")
+        UserValidation.superuser_is_valid(extra_fields.get("is_superuser"))
         return self._create_user(email, password, **extra_fields)
 
 
-class AuthGen():
+class AuthGen:
     @classmethod
     def createToken(cls, n=8):
         NUMSEQ = string.digits
-        token = lambda n: (''.join(random.choice(NUMSEQ) for _ in range(n)))
+        token = lambda n: ("".join(random.choice(NUMSEQ) for _ in range(n)))
         return token(n)
 
     @classmethod
@@ -48,3 +51,23 @@ class AuthGen():
             value = tokenbank.get(token, False)
             lock = True if value else value
         return token
+
+
+class PinValidationManager(models.Manager):
+
+    def get_queryset(self, *args, **kwargs):
+        expired = (
+            super()
+            .get_queryset(*args, **kwargs)
+            .filter(
+                expires_at__lt=Now(),
+            )
+        )
+        expired.delete()
+        return (
+            super()
+            .get_queryset(*args, **kwargs)
+            .filter(
+                expires_at__gt=Now(),
+            )
+        )

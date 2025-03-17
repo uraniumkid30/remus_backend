@@ -4,18 +4,20 @@ from django.db import models
 from conf.core.models import IdentityTimeBaseModel
 from conf.core.fields import DECIMAL_DEFAULTS
 from ..enums import (
-    WithdrawalStatusType,
     WalletStatus,
     CategoryType,
-    TransactionDirection
-
+    TransactionDirection,
+    TransactionCategory,
 )
+from conf.core.enums import Currency
 
 
 class Wallet(IdentityTimeBaseModel):
     user = models.OneToOneField(
-        to="accounts.User", on_delete=models.CASCADE,
-        related_name="wallets"
+        to="accounts.User", on_delete=models.CASCADE, null=True, blank=True
+    )
+    restaurant = models.OneToOneField(
+        to="merchant.Restaurant", on_delete=models.CASCADE, null=True, blank=True
     )
     amount = models.DecimalField(**DECIMAL_DEFAULTS)
     bonus_balance = models.DecimalField(**DECIMAL_DEFAULTS)
@@ -23,6 +25,11 @@ class Wallet(IdentityTimeBaseModel):
         max_length=50,
         choices=WalletStatus.choices(),
         default=WalletStatus.default()
+    )
+    currency = models.CharField(
+        max_length=50,
+        choices=Currency.choices(),
+        default=Currency.default()
     )
     overdraft_limit = models.DecimalField(**DECIMAL_DEFAULTS)
     overdraft = models.DecimalField(**DECIMAL_DEFAULTS)
@@ -66,11 +73,11 @@ class Wallet(IdentityTimeBaseModel):
 
 class WalletHistory(IdentityTimeBaseModel):
     wallet = models.ForeignKey(
-        to="Wallet", on_delete=models.DO_NOTHING,
+        to="Wallet", on_delete=models.CASCADE,
         related_name="wallet_histories"
     )
     description = models.CharField(max_length=300, default='')
-    transaction_category = models.CharField(
+    category = models.CharField(
         max_length=20, choices=CategoryType.choices(),
         default=CategoryType.default()
     )
@@ -107,38 +114,15 @@ class TransactionRecord(IdentityTimeBaseModel):
     transaction_date = models.DateTimeField(blank=True, null=True)
     receiver = models.CharField(max_length=250)
     sender = models.CharField(max_length=250)
-    customer = models.ManyToManyField(
-        to="finance.BankDetail",
-        related_name="transaction_records",
-        blank=True, null=True
+    category = models.CharField(
+        max_length=50, choices=TransactionCategory.choices(),
+        default=TransactionCategory.default()
+    )
+    currency = models.CharField(
+        max_length=50,
+        choices=Currency.choices(),
+        default=Currency.default()
     )
 
     def __str__(self):
         return "Transaction record{}".format(self.reference)
-
-
-class MoneyRequest(IdentityTimeBaseModel):
-    user = models.ForeignKey(
-        to="accounts.User", on_delete=models.DO_NOTHING,
-        related_name="money_requests"
-    )
-    request_type = models.CharField(
-        max_length=20, choices=WithdrawalStatusType.choices(),
-        default=WithdrawalStatusType.default()
-    )
-    status = models.CharField(
-        max_length=20, choices=WithdrawalStatusType.choices(),
-        default=WithdrawalStatusType.default()
-    )
-    recipient_code = models.CharField(
-        max_length=255, default=""
-    )
-    amount_requested = models.DecimalField(**DECIMAL_DEFAULTS)
-    amount_paid = models.DecimalField(**DECIMAL_DEFAULTS)
-    fee = models.DecimalField(**DECIMAL_DEFAULTS)
-
-    def __str__(self):
-        return f"{self.request_type} Request by {self.user}"
-
-    class Meta:
-        ordering = ["-created_at"]

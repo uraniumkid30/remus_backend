@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-from conf.env_manager import env
 from services.file_manager.utils import FileProcessingTool
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,6 +12,7 @@ BASE_DIR = ROOT_DIR
 DATABASE_DIR = os.path.join(PROJECT_DIR, "databases")
 REQUIREMENTS_DIR = os.path.join(ROOT_DIR, "requirements")
 MISCELLANEOUS_DIR = os.path.join(PROJECT_DIR, "miscellaneous")
+ENV_DIR = os.path.join(PROJECT_DIR, "env_variables")
 LOGS_DIR = os.path.join(MISCELLANEOUS_DIR, "LOGS")
 GUNICORN_DIR = os.path.join(MISCELLANEOUS_DIR, "GUNICORN")
 FILES_DIR = os.path.join(MISCELLANEOUS_DIR, "FILES")
@@ -23,7 +23,9 @@ NEWFILES_DIR = os.path.join(FILES_DIR, "NEW_FILES")
 TEMPLATES_DIR = os.path.join(THEME_DIR, "templates")
 STATIC_DIR = os.path.join(THEME_DIR, "static")
 MEDIA_DIR = os.path.join(THEME_DIR, "media")
+DIRECT_MEDIA_DIR = "miscellaneous/THEMES/MEDIA"
 STATIC_COLLECTION_DIR = os.path.join(THEME_DIR, "static_collection")
+PDF_FONTS_DIR = os.path.join(STATIC_DIR, "pdf_fonts")
 
 
 def is_folder_exists(_dir: str) -> bool:
@@ -63,16 +65,3 @@ def create_neccessary_directories():
     for _dir in directory_list:
         FileProcessingTool.check_and_create_dir(_dir)
     FileProcessingTool.check_and_create_file(os.path.join(LOGS_DIR, "gunicorn.log"))
-
-
-if env.bool("CREATE_DEFAULT_DIRECTORIES", True):
-    create_neccessary_directories()
-else:
-    LOGS_DIR = ""
-    GUNICORN_DIR = ""
-    THEME_DIR = ""
-    TEMPLATES_DIR = ""
-    REQUIREMENTS_DIR = ""
-    STATIC_DIR = "/vol/web/static/"
-    MEDIA_DIR = "/vol/web/media/"
-    STATIC_COLLECTION_DIR = ""

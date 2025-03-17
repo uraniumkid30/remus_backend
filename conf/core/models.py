@@ -26,13 +26,19 @@ class TimeBaseModel(models.Model):
 
     class Meta:
         abstract: bool = True
-        ordering: List[str] = ['-created_at']
+        ordering: List[str] = ["-created_at"]
 
 
 class IdentityTimeBaseModel(TimeBaseModel):
-    id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False
-    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     class Meta(TimeBaseModel.Meta):
+        abstract: bool = True
+
+
+class TempIdentityTimeBaseModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    class Meta:
         abstract: bool = True

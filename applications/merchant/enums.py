@@ -1,77 +1,62 @@
 from conf.core.enums import CustomEnum
 
 
-class PosProvider(CustomEnum):
-    MONNIFY = "monnify"
+class PaymentProvider(CustomEnum):
+    # MONNIFY = "monnify"
     PAYSTACK = "paystack"
 
     @classmethod
     def choices(cls):
         return (
-            (cls.MONNIFY, "MONNIFY"),
+            # (cls.MONNIFY, "MONNIFY"),
             (cls.PAYSTACK, "PAYSATCK"),
         )
 
     @classmethod
     def default(cls):
-        return cls.MONNIFY
+        return cls.PAYSTACK
 
 
 class SubscriptionStatus(CustomEnum):
-    LIVE = "live"
-    DEMO = "demo"
-    TEST = "test"
+    ACTIVE = "active"
+    PAUSED = "paused"
     CANCELLED = "cancelled"
+    EXPIRED = "expired"
 
     @classmethod
     def choices(cls):
         return (
-            (cls.LIVE, "Live"),
-            (cls.DEMO, "Demo"),
-            (cls.TEST, "Test"),
+            (cls.ACTIVE, "Active"),
+            (cls.PAUSED, "Paused"),
             (cls.CANCELLED, "Cancelled"),
+            (cls.EXPIRED, "Expired"),
         )
 
     @classmethod
     def default(cls):
-        return cls.DEMO
+        return cls.PAUSED
 
 
 class BillingCycle(CustomEnum):
-    ONETIME = "onetime"
     YEARLY = "yearly"
     MONTHLY = "monthly"
+    ONE_TIME = "one_time"
 
     @classmethod
     def choices(cls):
         return (
             (cls.YEARLY, "Yearly"),
             (cls.MONTHLY, "Monthly"),
-            (cls.ONETIME, "Onetime"),
+            (cls.ONE_TIME, "One_Time"),
         )
 
     @classmethod
     def default(cls):
-        return cls.ONETIME
+        return cls.ONE_TIME
 
 
-class SubscriptionType(CustomEnum):
-    REMUS_PAYSTACK = "paystack"
-    REMUS_MONNIFY = "monnify"
-
-    @classmethod
-    def choices(cls):
-        return (
-            (cls.REMUS_PAYSTACK, cls.REMUS_PAYSTACK.capitalize()),
-            (cls.REMUS_MONNIFY, cls.REMUS_MONNIFY.capitalize()),
-        )
-
-    @classmethod
-    def default(cls):
-        return cls.REMUS_MONNIFY
-
-
-class CategoryType(CustomEnum):
+class SubscriptionPlan(CustomEnum):
+    FREE = "free"
     BASIC = "basic"
     STANDARD = "standard"
     PREMIUM = "premium"
@@ -79,6 +64,7 @@ class CategoryType(CustomEnum):
     @classmethod
     def choices(cls):
         return (
+            (cls.FREE, "Free"),
             (cls.BASIC, "Basic"),
             (cls.STANDARD, "Standard"),
             (cls.PREMIUM, "Premium"),
@@ -86,92 +72,86 @@ class CategoryType(CustomEnum):
 
     @classmethod
     def default(cls):
-        return cls.BASIC
+        return cls.FREE
 
 
-class CategoryPrice(CustomEnum):
-    ONETIME_BASIC = 1000000
-    ONETIME_STANDARD = 2000000
-    ONETIME_PREMIUM = 3000000
-    YEARLY_BASIC = 120000
-    YEARLY_STANDARD = 240000
-    YEARLY_PREMIUM = 360000
-    MONTHLY_BASIC = 10000
-    MONTHLY_STANDARD = 20000
-    MONTHLY_PREMIUM = 30000
-
-    @classmethod
-    def choices(cls):
-        return cls.type_to_price()
-
-    @classmethod
-    def type_to_price(cls):
-        return {
-            BillingCycle.ONETIME: {
-                cls.ONETIME_BASIC: f"BASIC #{cls.ONETIME_BASIC}",
-                cls.ONETIME_STANDARD: f"STANDARD #{cls.ONETIME_STANDARD}",
-                cls.ONETIME_PREMIUM: f"PREMIUM #{cls.ONETIME_PREMIUM}",
-            },
-            BillingCycle.YEARLY: {
-                cls.YEARLY_BASIC: f"BASIC #{cls.YEARLY_BASIC}",
-                cls.YEARLY_STANDARD: f"STANDARD #{cls.YEARLY_STANDARD}",
-                cls.YEARLY_PREMIUM: f"PREMIUM #{cls.YEARLY_PREMIUM}",
-            },
-            BillingCycle.MONTHLY: {
-                cls.MONTHLY_BASIC: f"BASIC #{cls.MONTHLY_BASIC}",
-                cls.MONTHLY_STANDARD: f"STANDARD #{cls.MONTHLY_STANDARD}",
-                cls.MONTHLY_PREMIUM: f"PREMIUM #{cls.MONTHLY_PREMIUM}",
-            }
-        }
-
-    @classmethod
-    def default(cls):
-        return cls.ONETIME_BASIC
-
-
-class CategoryMeta(CustomEnum):
-    BASIC = [
-
-    ]
-    STANDARD = [
-
-    ]
-    PREMIUM = [
-
-    ]
+class OrderVolume(CustomEnum):
+    TIER_1 = "TIER_1"
+    TIER_2 = "TIER_2"
+    TIER_3 = "TIER_3"
+    TIER_4 = "TIER_4"
+    TIER_5 = "TIER_5"
 
     @classmethod
     def choices(cls):
         return (
-            (cls.BASIC, "Basic"),
-            (cls.STANDARD, "Standard"),
-            (cls.PREMIUM, "Premium"),
+            (cls.TIER_1, "0 - 10,000"),
+            (cls.TIER_2, "10,001 - 100,000"),
+            (cls.TIER_3, "100,001 - 1,000,000"),
+            (cls.TIER_4, "1,000,0001 - 5,000,000"),
+            (cls.TIER_5, "5,000,001 - 1,000,000,000"),
         )
 
     @classmethod
-    def type_to_price(cls):
-        return {
-            CategoryType.BASIC: cls.BASIC,
-            CategoryType.STANDARD: cls.STANDARD,
-            CategoryType.PREMIUM: cls.PREMIUM,
-        }
-
-    @classmethod
     def default(cls):
-        return cls.BASIC
+        return cls.TIER_1
 
 
 class QRScanResult(CustomEnum):
     INIT_PAYMENT = "init_payment"
-    CUSTOM_ROUTE = "custom_route"
+    MENU_ROUTE = "menu_route"
+    INACTIVE_SUBSCRIPTION = "inactive_subscription"
 
     @classmethod
     def choices(cls):
         return (
             (cls.INIT_PAYMENT, "INIT_PAYMENT"),
-            (cls.CUSTOM_ROUTE, "CUSTOM_ROUTE"),
+            (cls.MENU_ROUTE, "MENU_ROUTE"),
+            (cls.INACTIVE_SUBSCRIPTION, "INACTIVE_SUBSCRIPTION"),
         )
 
     @classmethod
     def default(cls):
-        return cls.INIT_PAYMENT
+        return cls.MENU_ROUTE
+
+
+class QRType(CustomEnum):
+    DEFAULT_QR = "default_qr"
+    ANIMATED_QR = "animated_qr"
+
+    @classmethod
+    def choices(cls):
+        return (
+            (cls.DEFAULT_QR, cls.DEFAULT_QR.upper()),
+            (cls.ANIMATED_QR, cls.ANIMATED_QR.upper()),
+        )
+
+    @classmethod
+    def default(cls):
+        return cls.DEFAULT_QR
+
+
+class DaysOfTheWeek(CustomEnum):
+    SUNDAY = "sunday"
+    MONDAY = "monday"
+    TUESDAY = "tuesday"
+    WEDNESDAY = "wednesday"
+    THURSDAY = "thursday"
+    FRIDAY = "friday"
+    SATURDAY = "saturday"
+
+    @classmethod
+    def choices(cls):
+        return (
+            (cls.SUNDAY, cls.SUNDAY.upper()),
+            (cls.MONDAY, cls.MONDAY.upper()),
+            (cls.TUESDAY, cls.TUESDAY.upper()),
+            (cls.WEDNESDAY, cls.WEDNESDAY.upper()),
+            (cls.THURSDAY, cls.THURSDAY.upper()),
+            (cls.FRIDAY, cls.FRIDAY.upper()),
+            (cls.SATURDAY, cls.SATURDAY.upper()),
+        )
+
+    @classmethod
+    def default(cls):
+        return cls.MONDAY

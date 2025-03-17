@@ -1,9 +1,9 @@
 import os
-from conf.env_manager import env
+from conf.env_manager import py_env
 
 
 def get_logs_settings(logs_dir: str = "", installed_apps: list = []) -> str:
-    if not env.bool("USE_LOGGERS", True):
+    if not py_env.bool("USE_LOGGERS", True):
         return {}
 
     LOGGING = {

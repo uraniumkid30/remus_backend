@@ -61,6 +61,6 @@ class AbstractChoices(ABC):
 
     @classmethod
     def in_choices(cls, value) -> bool:
-        """ checks if value is in the list of choices"""
+        """checks if value is in the list of choices"""
         cls.choices()
         return cls.default_choice.in_choices(value)

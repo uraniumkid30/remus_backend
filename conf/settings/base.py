@@ -1,21 +1,20 @@
 import os
+from dotenv import load_dotenv
 from conf.addons.constants import *
 from conf.addons.directories import (
     THEME_DIR,
     LOGS_DIR,
-    STATIC_COLLECTION_DIR,
-    MEDIA_DIR,
     BASE_DIR,
+    DIRECT_MEDIA_DIR,
+    MEDIA_DIR,
+    PDF_FONTS_DIR,
+    ARCHIVE_DIR
 )
+
 from conf.addons.apps import INSTALLED_APPS, LOCAL_APPS
 from conf.addons.logs import get_logs_settings
-from conf.addons.api_docs import *
-from conf.addons.email import *
-from conf.addons.rest_framework import *
-from conf.addons.monnify import *
-from conf.addons.paystack import *
+from conf.addons.public_exports import *
 
-INTERNAL_IPS = ("127.0.0.1",)
 
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
@@ -27,15 +26,11 @@ ANONYMOUS_URLS = [
     r"^static/",
 ]
 
-# Application definition
-
-ALLOWED_HOSTS = ["*"]
-
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     # "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -85,26 +80,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin,
-    'applications.accounts.managers.backends.SettingsBackend',
-    'django.contrib.auth.backends.ModelBackend',
-
+    "applications.accounts.managers.backends.SettingsBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = "/static/"
-STATIC_ROOT = STATIC_COLLECTION_DIR  # is the folder location of static files when collectstatic is run
-MEDIA_URL = "/media/"
-MEDIA_ROOT = MEDIA_DIR
-
-# STATICFILES_DIRS = [
-#     os.path.join(THEME_DIR, "static"),
-# ] # tells Django where to look for static files in a Django project, such as a top-level static folder
-
-# DJANGO_STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-# WHITENOISE_STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 LOGGING = get_logs_settings(LOGS_DIR, LOCAL_APPS)
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = "accounts.User"
 API_VERSION = "v1"

@@ -1,13 +1,18 @@
-from .merchant import (
-    Company,
-    MerchantProfile,
-    Store,
-    PointOfSale,
+from .restaurant import (
+    Restaurant,
+    Table,
+    OperationSchedule,
     QRTag
 )
 
+from .merchant import MerchantProfile
+
 from .monitoring import QRScan
 
-from .platform import MerchantPlatformSettings
+from .platform import RestaurantPlatformSettings
 
-from .subscription import Subscription
+from .subscription import Subscription, SubscriptionPricing, SubscriptionPayment
+
+from .social import SocialAccount
+
+from .bank import BankDetail

@@ -3,6 +3,7 @@ from django.conf import settings
 from importlib import import_module
 from typing import Sequence, Type, TYPE_CHECKING
 from rest_framework.permissions import IsAuthenticated, BasePermission
+
 # from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication, BaseAuthentication
 
@@ -73,6 +74,6 @@ class ApiAuthMixin:
     authentication_classes: Sequence[Type[BaseAuthentication]] = [
         CsrfExemptedSessionAuthentication,
         SessionAsHeaderAuthentication,
-        #JSONWebTokenAuthentication,
+        # JSONWebTokenAuthentication,
     ]
     permission_classes: PermissionClassesType = (IsAuthenticated,)
